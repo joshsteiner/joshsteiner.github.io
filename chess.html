@@ -1,0 +1,252 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>chess</title>
+    <script src="chessai.js"></script>
+    <style>
+      td {
+        display: inline-block;
+        border: 1px solid black;
+        margin: 0;
+        padding: 0;
+        font-size: 70px;
+        min-width: 80px;
+        min-height: 80px;
+        max-width: 80px;
+        max-height: 80px;
+        text-align: center;
+      }
+
+      th.top-left {
+        display: inline-block;
+        border: 1px solid black;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        min-height: 30px;
+        max-height: 30px;
+        min-width: 30px;
+        max-width: 30px;
+        text-align: center;
+      }
+
+      th.top {
+        display: inline-block;
+        border: 1px solid black;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        min-height: 30px;
+        max-height: 30px;
+        min-width: 80px;
+        max-width: 80px;
+        text-align: center;
+      }
+
+      th.left {
+        display: inline-block;
+        border: 1px solid black;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        min-width: 30px;
+        max-width: 30px;
+        min-height: 80px;
+        max-height: 80px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <th class="top-left"></th>
+        <th class="top">a</th>
+        <th class="top">b</th>
+        <th class="top">c</th>
+        <th class="top">d</th>
+        <th class="top">e</th>
+        <th class="top">f</th>
+        <th class="top">g</th>
+        <th class="top">h</th>
+      </tr>
+      <tr>
+        <th class="left">1</th>
+        <td id="a1" onclick="hlMoves('a1')"></td>
+        <td id="b1" onclick="hlMoves('b1')"></td>
+        <td id="c1" onclick="hlMoves('c1')"></td>
+        <td id="d1" onclick="hlMoves('d1')"></td>
+        <td id="e1" onclick="hlMoves('e1')"></td>
+        <td id="f1" onclick="hlMoves('f1')"></td>
+        <td id="g1" onclick="hlMoves('g1')"></td>
+        <td id="h1" onclick="hlMoves('h1')"></td>
+      </tr>
+      <tr>
+        <th class="left">2</th>
+        <td id="a2" onclick="hlMoves('a2')"></td>
+        <td id="b2" onclick="hlMoves('b2')"></td>
+        <td id="c2" onclick="hlMoves('c2')"></td>
+        <td id="d2" onclick="hlMoves('d2')"></td>
+        <td id="e2" onclick="hlMoves('e2')"></td>
+        <td id="f2" onclick="hlMoves('f2')"></td>
+        <td id="g2" onclick="hlMoves('g2')"></td>
+        <td id="h2" onclick="hlMoves('h2')"></td>
+      </tr>
+      <tr>
+        <th class="left">3</th>
+        <td id="a3" onclick="hlMoves('a3')"></td>
+        <td id="b3" onclick="hlMoves('b3')"></td>
+        <td id="c3" onclick="hlMoves('c3')"></td>
+        <td id="d3" onclick="hlMoves('d3')"></td>
+        <td id="e3" onclick="hlMoves('e3')"></td>
+        <td id="f3" onclick="hlMoves('f3')"></td>
+        <td id="g3" onclick="hlMoves('g3')"></td>
+        <td id="h3" onclick="hlMoves('h3')"></td>
+      </tr>
+      <tr>
+        <th class="left">4</th>
+        <td id="a4" onclick="hlMoves('a4')"></td>
+        <td id="b4" onclick="hlMoves('b4')"></td>
+        <td id="c4" onclick="hlMoves('c4')"></td>
+        <td id="d4" onclick="hlMoves('d4')"></td>
+        <td id="e4" onclick="hlMoves('e4')"></td>
+        <td id="f4" onclick="hlMoves('f4')"></td>
+        <td id="g4" onclick="hlMoves('g4')"></td>
+        <td id="h4" onclick="hlMoves('h4')"></td>
+      </tr>
+      <tr>
+        <th class="left">5</th>
+        <td id="a5" onclick="hlMoves('a5')"></td>
+        <td id="b5" onclick="hlMoves('b5')"></td>
+        <td id="c5" onclick="hlMoves('c5')"></td>
+        <td id="d5" onclick="hlMoves('d5')"></td>
+        <td id="e5" onclick="hlMoves('e5')"></td>
+        <td id="f5" onclick="hlMoves('f5')"></td>
+        <td id="g5" onclick="hlMoves('g5')"></td>
+        <td id="h5" onclick="hlMoves('h5')"></td>
+      </tr>
+      <tr>
+        <th class="left">6</th>
+        <td id="a6" onclick="hlMoves('a6')"></td>
+        <td id="b6" onclick="hlMoves('b6')"></td>
+        <td id="c6" onclick="hlMoves('c6')"></td>
+        <td id="d6" onclick="hlMoves('d6')"></td>
+        <td id="e6" onclick="hlMoves('e6')"></td>
+        <td id="f6" onclick="hlMoves('f6')"></td>
+        <td id="g6" onclick="hlMoves('g6')"></td>
+        <td id="h6" onclick="hlMoves('h6')"></td>
+      </tr>
+      <tr>
+        <th class="left">7</th>
+        <td id="a7" onclick="hlMoves('a7')"></td>
+        <td id="b7" onclick="hlMoves('b7')"></td>
+        <td id="c7" onclick="hlMoves('c7')"></td>
+        <td id="d7" onclick="hlMoves('d7')"></td>
+        <td id="e7" onclick="hlMoves('e7')"></td>
+        <td id="f7" onclick="hlMoves('f7')"></td>
+        <td id="g7" onclick="hlMoves('g7')"></td>
+        <td id="h7" onclick="hlMoves('h7')"></td>
+      </tr>
+      <tr>
+        <th class="left">8</th>
+        <td id="a8" onclick="hlMoves('a8')"></td>
+        <td id="b8" onclick="hlMoves('b8')"></td>
+        <td id="c8" onclick="hlMoves('c8')"></td>
+        <td id="d8" onclick="hlMoves('d8')"></td>
+        <td id="e8" onclick="hlMoves('e8')"></td>
+        <td id="f8" onclick="hlMoves('f8')"></td>
+        <td id="g8" onclick="hlMoves('g8')"></td>
+        <td id="h8" onclick="hlMoves('h8')"></td>
+      </tr>
+    </table>
+
+    <script>
+      function getPieceRepr(piece) {
+        let value = 0x2654;
+        switch (piece.piece_type) {
+          case KING:   value += 0; break;
+          case QUEEN:  value += 1; break;
+          case ROOK:   value += 2; break;
+          case BISHOP: value += 3; break;
+          case KNIGHT: value += 4; break;
+          case PAWN:   value += 5; break;
+        }
+        if (piece.color === BLACK) {
+          value += 6;
+        }
+        return String.fromCodePoint(value);
+      }
+
+      function initPieces() {
+        for (let i = 0; i < 8; ++i) {
+          for (let j = 0; j < 8; ++j) {
+            const piece = board[i][j];
+            const repr = piece === null ? ' ' : getPieceRepr(piece);
+            const coord = String.fromCharCode('a'.codePointAt(0) + j) + (i + 1);
+            document.getElementById(coord).textContent = repr;
+          }
+        }
+      }
+
+      function idToPosition(id) {
+        const i = Number(id[1]) - 1;
+        const j = id[0].codePointAt(0) - 'a'.codePointAt(0);
+        return new Position({
+          row: i,
+          column: j,
+        });
+      }
+
+      function positionToId(pos) {
+        return String.fromCharCode('a'.codePointAt(0) + pos.column) + (pos.row + 1);
+      }
+
+      let positionChosen = null;
+
+      function hlMoves(idClicked) {
+        const positionClicked = idToPosition(idClicked);
+        // clear highlights
+        for (let iter = 0; iter < 64; ++iter) {
+          document.getElementsByTagName('td')[iter].style.backgroundColor = 'white';
+        }
+
+        // if position was already clicked
+        if (positionChosen) {
+          const pieceChosen = piece_at_pos(board, positionChosen);
+          // if can move
+          if (possibleMovesFromPosition(board, pieceChosen.color, positionChosen)
+              .map(x => x.to)
+              .some(pos => pos.row === positionClicked.row && pos.column === positionClicked.column)) {
+            applyMove({
+              from: positionChosen,
+              to: positionClicked,
+            }, board);
+            currentColor = (currentColor === WHITE) ? BLACK : WHITE;
+            initPieces();
+
+            // ai move
+            const aiMove = chooseBestMove(board, currentColor);
+            applyMove(aiMove, board);
+            currentColor = (currentColor === WHITE) ? BLACK : WHITE;
+            initPieces();
+          }
+          positionChosen = null;
+        } else {
+          const piece = piece_at_pos(board, positionClicked);
+          if (piece === null || piece.color !== currentColor) {
+            return;
+          }
+
+          document.getElementById(idClicked).style.backgroundColor = 'orange';
+          possibleMovesFromPosition(board, piece.color, positionClicked).forEach(m => {
+            const ppos = positionToId(m.to);
+            document.getElementById(ppos).style.backgroundColor = 'orange';
+          });
+          positionChosen = positionClicked;
+        }
+      }
+
+      initPieces();
+    </script>
+  </body>
+</html>

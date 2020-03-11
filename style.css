@@ -35,20 +35,12 @@ th.left {
   max-width: 30px;
 }
 
-/*
-tr:nth-child(even) td:nth-child(even) {
-  background-color: burlywood;
+table {
+  display: inline-block;
 }
 
-tr:nth-child(even) td:nth-child(odd) {
-  background-color: firebrick;
+#options-and-results {
+  float: right;
+  border: 1px solid black;
+  padding: 10px;
 }
-
-tr:nth-child(odd) td:nth-child(even) {
-  background-color: firebrick;
-}
-
-tr:nth-child(odd) td:nth-child(odd) {
-  background-color: burlywood;
-}
-*/

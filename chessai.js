@@ -1,5 +1,5 @@
-let SEARCH_DEPTH = 4;
-
+let searchDepth = 4;
+let chooseBestMove = chooseBestMoveMinimax(minimaxWithAlphaBetaPruning);
 let counter;
 
 const
@@ -357,7 +357,7 @@ let board = [
   ],
 ];
 
-function minmax(board, color, alpha, beta, depth) {
+function minimaxWithAlphaBetaPruning(board, color, depth, alpha, beta) {
   ++counter;
   if (depth === 1) {
     return scorePosition(board);
@@ -369,12 +369,12 @@ function minmax(board, color, alpha, beta, depth) {
       const removedPiece = applyMove(move, board);
       bestMove = Math.max(
         bestMove,
-        minmax(
+        minimaxWithAlphaBetaPruning(
           board,
           switchColor(color),
+          depth - 1,
           alpha,
-          beta,
-          depth - 1
+          beta
         )
       );
       applyMove(reverseMove(move), board);
@@ -391,12 +391,12 @@ function minmax(board, color, alpha, beta, depth) {
       const removedPiece = applyMove(move, board);
       bestMove = Math.min(
         bestMove,
-        minmax(
+        minimaxWithAlphaBetaPruning(
           board,
           switchColor(color),
+          depth - 1,
           alpha,
           beta,
-          depth - 1
         )
       );
       applyMove(reverseMove(move), board);
@@ -410,31 +410,71 @@ function minmax(board, color, alpha, beta, depth) {
   }
 }
 
-function chooseBestMove(board, color) {
-  counter = 0;
-  // const decisionTree = buildDecisionTree(board, color, 4);
-  let f, bestScore;
-  let bestMoves = [];
+function minimax(board, color, depth) {
+  ++counter;
+  if (depth === 1) {
+    return scorePosition(board);
+  }
+
   if (color === WHITE) {
-    f = Math.max;
-    bestScore = -Infinity;
-  } else {
-    f = Math.min;
-    bestScore = Infinity;
-  }
-  for (let move of possibleMoves(board, color)) {
-    const removedPiece = applyMove(move, board);
-    const childScore = minmax(board, switchColor(color), -Infinity, Infinity, SEARCH_DEPTH);
-    applyMove(reverseMove(move), board);
-    board[move.to.row][move.to.column] = removedPiece;
-    if (f(childScore, bestScore) === childScore) {
-      if (childScore === bestScore) {
-        bestMoves.push(move);
-      } else {
-        bestMoves = [move];
-      }
-      bestScore = childScore;
+    let bestMove = -Infinity;
+    for (let move of possibleMoves(board, color)) {
+      const removedPiece = applyMove(move, board);
+      bestMove = Math.max(
+        bestMove,
+        minimax(board, switchColor(color), depth - 1)
+      );
+      applyMove(reverseMove(move), board);
+      board[move.to.row][move.to.column] = removedPiece;
     }
+    return bestMove;
+  } else {
+    let bestMove = Infinity;
+    for (let move of possibleMoves(board, color)) {
+      const removedPiece = applyMove(move, board);
+      bestMove = Math.min(
+        bestMove,
+        minimax(board, switchColor(color), depth - 1)
+      );
+      applyMove(reverseMove(move), board);
+      board[move.to.row][move.to.column] = removedPiece;
+    }
+    return bestMove;
   }
-  return bestMoves[Math.floor(Math.random() * 1000) % bestMoves.length];
+}
+
+function chooseBestMoveMinimax(algorithm) {
+  return function(board, color) {
+    counter = 0;
+    let f, bestScore;
+    let bestMoves = [];
+    if (color === WHITE) {
+      f = Math.max;
+      bestScore = -Infinity;
+    } else {
+      f = Math.min;
+      bestScore = Infinity;
+    }
+    for (let move of possibleMoves(board, color)) {
+      const removedPiece = applyMove(move, board);
+      const childScore = algorithm(board, switchColor(color), searchDepth, -Infinity, Infinity);
+      applyMove(reverseMove(move), board);
+      board[move.to.row][move.to.column] = removedPiece;
+      if (f(childScore, bestScore) === childScore) {
+        if (childScore === bestScore) {
+          bestMoves.push(move);
+        } else {
+          bestMoves = [move];
+        }
+        bestScore = childScore;
+      }
+    }
+    return bestMoves[Math.floor(Math.random() * 1000) % bestMoves.length];
+  }
+}
+
+function chooseRandomMove(board, color) {
+  counter = 0;
+  const moves = possibleMoves(board, color);
+  return moves[Math.floor(Math.random() * 1000) % moves.length];
 }

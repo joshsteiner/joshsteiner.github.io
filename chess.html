@@ -109,7 +109,53 @@
       </tr>
     </table>
 
+    <div id="options-and-results">
+      <div id="options">
+        <label>Algorithm</label>
+        <select name="Algorythm" id="Algorithm" onchange="setAlgorithm(this.value)">
+          <option>Random Move</option>
+          <option>Minimax</option>
+          <option selected>Minimax with α-β pruning</option>
+        </select>
+        <br>
+        <label>Seach Depth</label>
+        <select name="Search Depth" id="SearchDepth" onchange="setDepth(this.value)">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option selected>4</option>
+          <option>5</option>
+        </select>
+      </div>
+      <div id="results">
+        Evaluated Positions: <span id="evaluated-positions"></span>
+        <br>
+        Computation Time: <span id="computation time"></span>
+      </div>
+    </div>
+
     <script>
+      function setAlgorithm(value) {
+        switch (value) {
+          case "Random Move":
+            chooseBestMove = chooseRandomMove;
+            break;
+          case "Minimax":
+            chooseBestMove = chooseBestMoveMinimax(minimax);
+            break;
+          case "Minimax with α-β pruning":
+            chooseBestMove = chooseBestMoveMinimax(minimaxWithAlphaBetaPruning);
+            break;
+        }
+      }
+
+      function setDepth(value) {
+        if (typeof value === 'string') {
+          value = parseInt(value);
+        }
+        searchDepth = value;
+      }
+
       function getPieceRepr(piece) {
         let value = 0x2654;
         switch (piece.piece_type) {
@@ -174,10 +220,15 @@
             initPieces();
 
             // ai move
+            const startTime = performance.now();
             const aiMove = chooseBestMove(board, currentColor);
+            const endTime = performance.now();
             applyMove(aiMove, board);
             currentColor = (currentColor === WHITE) ? BLACK : WHITE;
             initPieces();
+
+            document.getElementById('evaluated-positions').innerText = counter;
+            document.getElementById('computation time').innerText = ((endTime - startTime) / 1000) + ' s';
           }
           positionChosen = null;
         } else {
@@ -196,6 +247,8 @@
       }
 
       initPieces();
+      setAlgorithm(document.getElementById('Algorithm').value);
+      setDepth(document.getElementById('SearchDepth').value);
     </script>
   </body>
 </html>

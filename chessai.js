@@ -1,4 +1,4 @@
-let SEARCH_DEPTH = 5;
+let SEARCH_DEPTH = 4;
 
 let counter;
 
@@ -108,10 +108,10 @@ function possibleMovesFromPosition(board, color, position) {
     case PAWN:
       {
         let pawn_position = [];
-        const dir = (piece.color === WHITE) ? -1 : +1;
+        const dir = (piece.color === WHITE) ? +1 : -1;
         let firstRow = false;
-        if ((piece.color === WHITE && position.row === 6) ||
-            (piece.color === BLACK && position.row === 1)) {
+        if ((piece.color === WHITE && position.row === 1) ||
+            (piece.color === BLACK && position.row === 6)) {
           firstRow = true;
         }
         if (!occupiedBySameColorOrOffBoard(board, position.offset(1 * dir, 0), color) &&
@@ -312,40 +312,6 @@ function applyMoveCopy(move, board) {
 let currentColor = WHITE;
 let board = [
   [
-    {color: BLACK, piece_type: ROOK},
-    {color: BLACK, piece_type: KNIGHT},
-    {color: BLACK, piece_type: BISHOP},
-    {color: BLACK, piece_type: QUEEN},
-    {color: BLACK, piece_type: KING},
-    {color: BLACK, piece_type: BISHOP},
-    {color: BLACK, piece_type: KNIGHT},
-    {color: BLACK, piece_type: ROOK},
-  ],
-  [
-    {color: BLACK, piece_type: PAWN},
-    {color: BLACK, piece_type: PAWN},
-    {color: BLACK, piece_type: PAWN},
-    {color: BLACK, piece_type: PAWN},
-    {color: BLACK, piece_type: PAWN},
-    {color: BLACK, piece_type: PAWN},
-    {color: BLACK, piece_type: PAWN},
-    {color: BLACK, piece_type: PAWN},
-  ],
-  [ null, null, null, null, null, null, null, null, ],
-  [ null, null, null, null, null, null, null, null, ],
-  [ null, null, null, null, null, null, null, null, ],
-  [ null, null, null, null, null, null, null, null, ],
-  [
-    {color: WHITE, piece_type: PAWN},
-    {color: WHITE, piece_type: PAWN},
-    {color: WHITE, piece_type: PAWN},
-    {color: WHITE, piece_type: PAWN},
-    {color: WHITE, piece_type: PAWN},
-    {color: WHITE, piece_type: PAWN},
-    {color: WHITE, piece_type: PAWN},
-    {color: WHITE, piece_type: PAWN},
-  ],
-  [
     {color: WHITE, piece_type: ROOK},
     {color: WHITE, piece_type: KNIGHT},
     {color: WHITE, piece_type: BISHOP},
@@ -355,87 +321,41 @@ let board = [
     {color: WHITE, piece_type: KNIGHT},
     {color: WHITE, piece_type: ROOK},
   ],
+  [
+    {color: WHITE, piece_type: PAWN},
+    {color: WHITE, piece_type: PAWN},
+    {color: WHITE, piece_type: PAWN},
+    {color: WHITE, piece_type: PAWN},
+    {color: WHITE, piece_type: PAWN},
+    {color: WHITE, piece_type: PAWN},
+    {color: WHITE, piece_type: PAWN},
+    {color: WHITE, piece_type: PAWN},
+  ],
+  [ null, null, null, null, null, null, null, null, ],
+  [ null, null, null, null, null, null, null, null, ],
+  [ null, null, null, null, null, null, null, null, ],
+  [ null, null, null, null, null, null, null, null, ],
+  [
+    {color: BLACK, piece_type: PAWN},
+    {color: BLACK, piece_type: PAWN},
+    {color: BLACK, piece_type: PAWN},
+    {color: BLACK, piece_type: PAWN},
+    {color: BLACK, piece_type: PAWN},
+    {color: BLACK, piece_type: PAWN},
+    {color: BLACK, piece_type: PAWN},
+    {color: BLACK, piece_type: PAWN},
+  ],
+  [
+    {color: BLACK, piece_type: ROOK},
+    {color: BLACK, piece_type: KNIGHT},
+    {color: BLACK, piece_type: BISHOP},
+    {color: BLACK, piece_type: QUEEN},
+    {color: BLACK, piece_type: KING},
+    {color: BLACK, piece_type: BISHOP},
+    {color: BLACK, piece_type: KNIGHT},
+    {color: BLACK, piece_type: ROOK},
+  ],
 ];
-/*
-function buildDecisionTree(board, color, depth, move) {
-  if (depth === 0) {
-    return {
-      move: move,
-      board: board,
-      score: scorePosition(applyMoveCopy(move, board)),
-    }
-  } else if (move) {
-    board = applyMoveCopy(move, board);
-    return {
-      move: move,
-      score: scorePosition(board),
-      children: possibleMoves(board, color).map(move =>
-        buildDecisionTree(board, color === WHITE ? BLACK : WHITE, depth - 1, move),
-      ),
-    }
-  } else {
-    return {
-      score: scorePosition(board),
-      children: possibleMoves(board, color).map(move =>
-        buildDecisionTree(board, color === WHITE ? BLACK : WHITE, depth - 1, move),
-      ),
-    }
-  }
-}
-
-function _minmax(decisionTree, color) {
-  if (!decisionTree.children) {
-    return decisionTree.score;
-  }
-  let f, bestScore;
-  if (color === WHITE) {
-    f = Math.max;
-    bestScore = -Infinity;
-  } else {
-    f = Math.min;
-    bestScore = Infinity;
-  }
-  decisionTree.children.forEach(child => {
-    const mmScore = minmax(child, color === WHITE ? BLACK : WHITE);
-    if (f(bestScore, mmScore) === mmScore) {
-      bestScore = mmScore;
-    }
-  });
-  return bestScore;
-}
-
-function __minmax(decisionTree, color, alpha, beta) {
-  if (!decisionTree.children) {
-    return decisionTree.score;
-  }
-  let f, bestScore;
-  if (color === WHITE) {
-    f = Math.max;
-    bestScore = -Infinity;
-  } else {
-    f = Math.min;
-    bestScore = Infinity;
-  }
-
-  for (let child of decisionTree.children) {
-    const mmScore = minmax(child, color === WHITE ? BLACK : WHITE, alpha, beta);
-    if (f(bestScore, mmScore) === mmScore) {
-      bestScore = mmScore;
-    }
-    if (color === WHITE) {
-      alpha = Math.max(alpha, bestScore);
-      if (beta <= alpha) {
-        return bestScore;
-      }
-    } else {
-      beta = Math.min(beta, bestScore);
-      if (beta <= alpha) {
-        return bestScore;
-      }
-    }
-  }
-  return bestScore;
-}*/
 
 function minmax(board, color, alpha, beta, depth) {
   ++counter;
@@ -443,19 +363,9 @@ function minmax(board, color, alpha, beta, depth) {
     return scorePosition(board);
   }
 
-  /*let f, bestScore;
-  if (color === WHITE) {
-    f = Math.max;
-    bestScore = -Infinity;
-  } else {
-    f = Math.min;
-    bestScore = Infinity;
-  }*/
-
   if (color === WHITE) {
     let bestMove = -Infinity;
     for (let move of possibleMoves(board, color)) {
-    //for (let position of possiblePositions(board, color)) {
       const removedPiece = applyMove(move, board);
       bestMove = Math.max(
         bestMove,
@@ -478,7 +388,6 @@ function minmax(board, color, alpha, beta, depth) {
   } else {
     let bestMove = Infinity;
     for (let move of possibleMoves(board, color)) {
-    //for (let position of possiblePositions(board, color)) {
       const removedPiece = applyMove(move, board);
       bestMove = Math.min(
         bestMove,
@@ -499,29 +408,6 @@ function minmax(board, color, alpha, beta, depth) {
     }
     return bestMove;
   }
-
-/*  for (let move of possibleMoves(board, color)) {
-    const removedPiece = applyMove(move, board);
-    const mmScore = minmax(board, switchColor(color), alpha, beta, depth - 1);
-    applyMove(reverseMove(move), board);
-    board[move.from.row][move.from.to] = removedPiece;
-
-    if (f(bestScore, mmScore) === mmScore) {
-      bestScore = mmScore;
-    }
-    /*if (color === WHITE) {
-      alpha = Math.max(alpha, bestScore);
-      if (beta <= alpha) {
-        return bestScore;
-      }
-    } else {
-      beta = Math.min(beta, bestScore);
-      if (beta <= alpha) {
-        return bestScore;
-      }
-    }//
-  }
-  return bestScore;*/
 }
 
 function chooseBestMove(board, color) {

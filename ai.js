@@ -5,7 +5,7 @@
 function minimaxWithAlphaBetaPruning(board, color, depth, alpha, beta) {
   ++counter;
   if (depth === 1) {
-    return scorePosition(board);
+    return scoreBoard(board);
   }
   if (color === WHITE) {
     let bestMove = -Infinity;
@@ -57,7 +57,7 @@ function minimaxWithAlphaBetaPruning(board, color, depth, alpha, beta) {
 function minimax(board, color, depth) {
   ++counter;
   if (depth === 1) {
-    return scorePosition(board);
+    return scoreBoard(board);
   }
   if (color === WHITE) {
     let bestMove = -Infinity;

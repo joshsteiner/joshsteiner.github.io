@@ -117,6 +117,12 @@
           <option selected>Minimax with α-β pruning</option>
         </select>
         <br>
+        <label>Heuristic Function</label>
+        <select name="Heuristic Function" id="HeuristicFunction" onchange="setHeuristic(this.value)">
+          <option>Material</option>
+          <option selected>Material with position bias</option>
+        </select>
+        <br>
         <label>Search Depth</label>
         <select name="Search Depth" id="SearchDepth" onchange="setDepth(this.value)">
           <option>1</option>

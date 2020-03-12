@@ -16,6 +16,17 @@ function setAlgorithm(value) {
   }
 }
 
+function setHeuristic(value) {
+  switch (value) {
+    case "Material":
+      scoreBoard = scoreBoardMaterial;
+      break;
+    case "Material with position bias":
+      scoreBoard = scoreBoardWithPositionBias;
+      break;
+  }
+}
+
 function setDepth(value) {
   if (typeof value === 'string') {
     value = parseInt(value);
@@ -104,3 +115,4 @@ function squareClicked(elem) {
 initPieces();
 setAlgorithm(document.getElementById('Algorithm').value);
 setDepth(document.getElementById('SearchDepth').value);
+setHeuristic(document.getElementById('HeuristicFunction').value);

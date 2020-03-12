@@ -18,6 +18,7 @@ const KING = 6;
 let currentColor = WHITE;
 let searchDepth
 let chooseBestMove;
+let scoreBoard;
 let counter;
 
 let board = [
@@ -86,6 +87,14 @@ class Position {
     return new Position({
       row: this.row + dr,
       column: this.column + dc,
+    });
+  }
+
+  // return analogous square from the point of view of the opposite color
+  mirror() {
+    return new Position({
+      row: BOARD_HEIGHT - this.row - 1,
+      column: BOARD_WIDTH - this.column - 1,
     });
   }
 

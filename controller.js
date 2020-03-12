@@ -101,52 +101,6 @@ function squareClicked(elem) {
   }
 }
 
-function hlMoves(idClicked) {
-  const positionClicked = idToPosition(idClicked);
-  // clear highlights
-  for (let iter = 0; iter < 64; ++iter) {
-    document.getElementsByTagName('td')[iter].style.backgroundColor = 'white';
-  }
-  // if position was already clicked
-  if (positionChosen) {
-    const pieceChosen = pieceAtPos(board, positionChosen);
-    // if can move
-    if (possibleMovesFromPosition(board, pieceChosen.color, positionChosen)
-        .map(x => x.to)
-        .some(pos => pos.row === positionClicked.row && pos.column === positionClicked.column)) {
-      applyMove({
-        from: positionChosen,
-        to: positionClicked,
-      }, board);
-      currentColor = (currentColor === WHITE) ? BLACK : WHITE;
-      initPieces();
-
-      // ai move
-      const startTime = performance.now();
-      const aiMove = chooseBestMove(board, currentColor);
-      const endTime = performance.now();
-      applyMove(aiMove, board);
-      currentColor = (currentColor === WHITE) ? BLACK : WHITE;
-      initPieces();
-
-      document.getElementById('evaluated-positions').innerText = counter;
-      document.getElementById('computation time').innerText = ((endTime - startTime) / 1000) + ' s';
-    }
-    positionChosen = null;
-  } else {
-    const piece = pieceAtPos(board, positionClicked);
-    if (piece === null || piece.color !== currentColor) {
-      return;
-    }
-    document.getElementById(idClicked).style.backgroundColor = 'orange';
-    possibleMovesFromPosition(board, piece.color, positionClicked).forEach(m => {
-      const ppos = positionToId(m.to);
-      document.getElementById(ppos).style.backgroundColor = 'orange';
-    });
-    positionChosen = positionClicked;
-  }
-}
-
 initPieces();
 setAlgorithm(document.getElementById('Algorithm').value);
 setDepth(document.getElementById('SearchDepth').value);
